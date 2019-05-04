@@ -10,7 +10,7 @@ import me.kevincampos.domain.GetExchangesUseCase
 import javax.inject.Inject
 
 class ExchangeListViewModel @Inject constructor(
-    private val getExchangesUseCase: GetExchangesUseCase
+    private val getExchanges: GetExchangesUseCase
 ) : ViewModel() {
 
     private val viewModelJob = Job()
@@ -20,7 +20,8 @@ class ExchangeListViewModel @Inject constructor(
         Log.e("TAG", "Using ExchangeListViewModel")
 
         uiScope.launch(Dispatchers.IO) {
-            getExchangesUseCase.use()
+            val exchanges = getExchanges()
+            println(exchanges)
         }
     }
 

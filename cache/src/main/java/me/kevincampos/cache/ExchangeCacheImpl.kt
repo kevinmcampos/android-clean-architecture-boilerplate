@@ -1,12 +1,28 @@
 package me.kevincampos.cache
 
-import android.util.Log
+import me.kevincampos.cache.database.ExchangeListDatabase
+import me.kevincampos.cache.mapper.ExchangeEntityMapper
 import me.kevincampos.data.ExchangeCache
+import me.kevincampos.domain.Exchange
+import me.kevincampos.domain.Result
+import javax.inject.Inject
 
-class ExchangeCacheImpl : ExchangeCache {
+class ExchangeCacheImpl @Inject constructor(
+    private val database: ExchangeListDatabase,
+    private val mapper: ExchangeEntityMapper
+) : ExchangeCache {
 
-    override suspend fun use() {
-        Log.e("TAG", "Using ExchangeCacheImpl")
+    override suspend fun getExchanges(): Result<List<Exchange>> {
+        val exchangeEntities = database.exchangeDao().getExchanges()
+        val exchanges = exchangeEntities.map { mapper.mapFromEntity(it) }
+        return Result.Success(exchanges)
+    }
+
+    override suspend fun insertExchanges(exchanges: List<Exchange>): Result<Boolean> {
+        database.exchangeDao().insertExchanges(
+            exchanges.map { mapper.mapToEntity(it) }
+        )
+        return Result.Success(true)
     }
 
 }

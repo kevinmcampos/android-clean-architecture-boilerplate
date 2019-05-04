@@ -8,7 +8,7 @@ class ExchangeResponseMapper @Inject constructor():
     ResponseMapper<ExchangeResponse, Exchange> {
 
     override fun mapToDomain(response: ExchangeResponse): Exchange {
-        return Exchange()
+        return Exchange(response.id, response.name)
     }
 
 }

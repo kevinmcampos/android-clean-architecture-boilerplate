@@ -1,3 +1,6 @@
 package me.kevincampos.domain
 
-class Exchange
+class Exchange(
+    val id: String,
+    val name: String
+)
