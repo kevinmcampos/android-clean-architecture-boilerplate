@@ -4,7 +4,7 @@ import me.kevincampos.data.ExchangeRemote
 
 class ExchangeRemoteImpl : ExchangeRemote {
 
-    override fun use() {
+    override suspend fun use() {
         println("Using ExchangeRemoteImpl")
     }
 

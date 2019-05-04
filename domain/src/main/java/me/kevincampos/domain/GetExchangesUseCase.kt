@@ -1,10 +1,12 @@
 package me.kevincampos.domain
 
-class GetExchangesUseCase(
+import javax.inject.Inject
+
+class GetExchangesUseCase @Inject constructor(
     private val policyRepository: ExchangeRepository
 ) {
 
-    fun use() {
+    suspend fun use() {
         println("Using GetExchangesUseCase")
         policyRepository.use()
     }

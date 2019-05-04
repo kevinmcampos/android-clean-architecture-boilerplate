@@ -1,15 +1,27 @@
 package me.kevincampos.presentation
 
+import android.arch.lifecycle.ViewModel
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.kevincampos.domain.GetExchangesUseCase
+import javax.inject.Inject
 
-class ExchangeListViewModel(
+class ExchangeListViewModel @Inject constructor(
     private val getExchangesUseCase: GetExchangesUseCase
-) {
+) : ViewModel() {
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     fun use() {
         Log.e("TAG", "Using ExchangeListViewModel")
-        getExchangesUseCase.use()
+
+        uiScope.launch(Dispatchers.IO) {
+            getExchangesUseCase.use()
+        }
     }
 
 }

@@ -2,6 +2,6 @@ package me.kevincampos.domain
 
 interface ExchangeRepository {
 
-    fun use()
+    suspend fun use()
 
 }

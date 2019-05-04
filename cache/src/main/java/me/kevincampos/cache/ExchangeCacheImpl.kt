@@ -5,7 +5,7 @@ import me.kevincampos.data.ExchangeCache
 
 class ExchangeCacheImpl : ExchangeCache {
 
-    override fun use() {
+    override suspend fun use() {
         Log.e("TAG", "Using ExchangeCacheImpl")
     }
 
