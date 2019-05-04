@@ -6,7 +6,7 @@ import me.kevincampos.cache.ExchangeCacheImpl
 import me.kevincampos.cache.database.ExchangeListDatabase
 import me.kevincampos.cache.mapper.ExchangeEntityMapper
 import me.kevincampos.data.ExchangeRepositoryImpl
-import me.kevincampos.domain.GetExchangesUseCase
+import me.kevincampos.domain.interactor.GetExchangesUseCase
 import me.kevincampos.presentation.ExchangeListViewModel
 import me.kevincampos.remote.ExchangeRemoteImpl
 import me.kevincampos.remote.mapper.ExchangeResponseMapper
@@ -21,7 +21,8 @@ class ExchangeListActivity: AppCompatActivity() {
         val exchangeCache = ExchangeCacheImpl(ExchangeListDatabase.getInstance(baseContext), ExchangeEntityMapper())
         val exchangeRemote = ExchangeRemoteImpl(exchangeService, ExchangeResponseMapper())
 
-        val getExchangesUseCase = GetExchangesUseCase(ExchangeRepositoryImpl(exchangeCache, exchangeRemote))
+        val getExchangesUseCase =
+            GetExchangesUseCase(ExchangeRepositoryImpl(exchangeCache, exchangeRemote))
 
         ExchangeListViewModel(getExchangesUseCase).use()
     }

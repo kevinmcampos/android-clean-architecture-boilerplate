@@ -1,4 +1,4 @@
-package me.kevincampos.domain
+package me.kevincampos.domain.util
 
 sealed class Result<out T : Any> {
 

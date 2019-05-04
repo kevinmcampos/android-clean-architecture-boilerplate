@@ -1,8 +1,10 @@
 package me.kevincampos.data
 
-import me.kevincampos.domain.Exchange
+import me.kevincampos.data.cache.ExchangeCache
+import me.kevincampos.data.remote.ExchangeRemote
 import me.kevincampos.domain.ExchangeRepository
-import me.kevincampos.domain.Result
+import me.kevincampos.domain.model.Exchange
+import me.kevincampos.domain.util.Result
 import javax.inject.Inject
 
 class ExchangeRepositoryImpl @Inject constructor(

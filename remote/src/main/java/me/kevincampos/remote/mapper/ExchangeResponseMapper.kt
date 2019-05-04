@@ -1,6 +1,6 @@
 package me.kevincampos.remote.mapper
 
-import me.kevincampos.domain.Exchange
+import me.kevincampos.domain.model.Exchange
 import me.kevincampos.remote.model.ExchangeResponse
 import javax.inject.Inject
 

@@ -2,9 +2,9 @@ package me.kevincampos.cache
 
 import me.kevincampos.cache.database.ExchangeListDatabase
 import me.kevincampos.cache.mapper.ExchangeEntityMapper
-import me.kevincampos.data.ExchangeCache
-import me.kevincampos.domain.Exchange
-import me.kevincampos.domain.Result
+import me.kevincampos.data.cache.ExchangeCache
+import me.kevincampos.domain.model.Exchange
+import me.kevincampos.domain.util.Result
 import javax.inject.Inject
 
 class ExchangeCacheImpl @Inject constructor(

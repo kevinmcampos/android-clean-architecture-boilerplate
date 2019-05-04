@@ -1,7 +1,7 @@
-package me.kevincampos.data
+package me.kevincampos.data.cache
 
-import me.kevincampos.domain.Exchange
-import me.kevincampos.domain.Result
+import me.kevincampos.domain.model.Exchange
+import me.kevincampos.domain.util.Result
 
 interface ExchangeCache {
 

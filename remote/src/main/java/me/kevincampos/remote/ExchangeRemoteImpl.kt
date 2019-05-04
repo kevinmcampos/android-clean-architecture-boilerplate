@@ -1,8 +1,8 @@
 package me.kevincampos.remote
 
-import me.kevincampos.data.ExchangeRemote
-import me.kevincampos.domain.Exchange
-import me.kevincampos.domain.Result
+import me.kevincampos.data.remote.ExchangeRemote
+import me.kevincampos.domain.model.Exchange
+import me.kevincampos.domain.util.Result
 import me.kevincampos.remote.mapper.ExchangeResponseMapper
 import me.kevincampos.remote.service.ExchangeService
 import java.io.IOException

@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import me.kevincampos.domain.GetExchangesUseCase
+import me.kevincampos.domain.interactor.GetExchangesUseCase
 import javax.inject.Inject
 
 class ExchangeListViewModel @Inject constructor(
