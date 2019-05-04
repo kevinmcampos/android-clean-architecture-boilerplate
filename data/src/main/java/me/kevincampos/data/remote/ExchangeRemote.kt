@@ -5,6 +5,6 @@ import me.kevincampos.domain.util.Result
 
 interface ExchangeRemote {
 
-    suspend fun getExchanges(): Result<List<Exchange>>
+    suspend fun fetchExchanges(): Result<List<Exchange>>
 
 }

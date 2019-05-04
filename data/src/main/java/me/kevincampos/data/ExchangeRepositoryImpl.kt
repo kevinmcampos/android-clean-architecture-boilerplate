@@ -13,9 +13,9 @@ class ExchangeRepositoryImpl @Inject constructor(
 ) : ExchangeRepository {
 
     override suspend fun getExchanges(): Result<List<Exchange>> {
-        val getExchangesRemoteResult = exchangeRemote.getExchanges()
-        if (getExchangesRemoteResult is Result.Success) {
-            exchangeCache.insertExchanges(getExchangesRemoteResult.data)
+        val fetchedResult = exchangeRemote.fetchExchanges()
+        if (fetchedResult is Result.Success) {
+            exchangeCache.insertExchanges(fetchedResult.data)
         }
         return exchangeCache.getExchanges()
     }

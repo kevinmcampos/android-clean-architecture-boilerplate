@@ -13,8 +13,8 @@ class ExchangeRemoteImpl @Inject constructor(
     private val mapper: ExchangeResponseMapper
 ) : ExchangeRemote {
 
-    override suspend fun getExchanges(): Result<List<Exchange>> {
-        val response = service.getExchangesAsync().await()
+    override suspend fun fetchExchanges(): Result<List<Exchange>> {
+        val response = service.fetchExchangesAsync().await()
 
         return if (response.isSuccessful) {
             val exchangeList = response.body()?.map {

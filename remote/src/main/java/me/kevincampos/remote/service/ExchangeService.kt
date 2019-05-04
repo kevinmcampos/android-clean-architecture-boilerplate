@@ -8,6 +8,6 @@ import retrofit2.http.GET
 interface ExchangeService {
 
     @GET("exchanges")
-    fun getExchangesAsync(): Deferred<Response<List<ExchangeResponse>>>
+    fun fetchExchangesAsync(): Deferred<Response<List<ExchangeResponse>>>
 
 }
