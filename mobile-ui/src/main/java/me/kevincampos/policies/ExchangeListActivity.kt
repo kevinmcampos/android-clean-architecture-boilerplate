@@ -8,6 +8,7 @@ import me.kevincampos.data.ExchangeRepositoryImpl
 import me.kevincampos.domain.GetExchangesUseCase
 import me.kevincampos.presentation.ExchangeListViewModel
 import me.kevincampos.remote.ExchangeRemoteImpl
+import me.kevincampos.remote.service.ExchangeServiceFactory
 
 class ExchangeListActivity: AppCompatActivity() {
 
@@ -16,7 +17,9 @@ class ExchangeListActivity: AppCompatActivity() {
 
         Log.e("TAG", "Using ExchangeListActivity")
 
-        val getExchangesUseCase = GetExchangesUseCase(ExchangeRepositoryImpl(ExchangeCacheImpl(), ExchangeRemoteImpl()))
+        val exchangeService = ExchangeServiceFactory.makeCurrencyService(true)
+
+        val getExchangesUseCase = GetExchangesUseCase(ExchangeRepositoryImpl(ExchangeCacheImpl(), ExchangeRemoteImpl(exchangeService)))
         ExchangeListViewModel(getExchangesUseCase).use()
     }
 

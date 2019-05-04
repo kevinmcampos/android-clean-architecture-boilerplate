@@ -12,7 +12,7 @@ class ExchangeRepositoryImpl @Inject constructor(
         println("Using ExchangeRepositoryImpl")
 
         exchangeCache.use()
-        exchangeRemote.use()
+        exchangeRemote.getExchanges()
     }
 
 }
