@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object ExchangeServiceFactory {
 
-    fun makeCurrencyService(isDebug: Boolean): ExchangeService {
+    fun makeExchangeService(isDebug: Boolean): ExchangeService {
         val okHttpClient = makeOkHttpClient(
             makeLoggingInterceptor((isDebug))
         )
@@ -21,13 +21,13 @@ object ExchangeServiceFactory {
             .setLenient()
             .create()
 
-        return makeCurrencyService(
+        return makeExchangeService(
             okHttpClient,
             gson
         )
     }
 
-    private fun makeCurrencyService(okHttpClient: OkHttpClient, gson: Gson): ExchangeService {
+    private fun makeExchangeService(okHttpClient: OkHttpClient, gson: Gson): ExchangeService {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.coingecko.com/api/v3/")
             .client(okHttpClient)

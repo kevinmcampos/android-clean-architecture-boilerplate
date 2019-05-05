@@ -1,4 +1,4 @@
-package me.kevincampos.ratesnow.local.mapper
+package me.kevincampos.cache.mapper
 
 interface EntityMapper<Entity, Domain> {
 

@@ -10,7 +10,7 @@ import me.kevincampos.cache.model.ExchangeEntity
 @Dao
 abstract class ExchangeDao {
 
-    @Query("SELECT * FROM $TABLE_NAME")
+    @Query("SELECT * FROM $TABLE_NAME ORDER BY btc_trade_volume_in_last_24h_hours DESC")
     @JvmSuppressWildcards
     abstract fun getExchanges(): List<ExchangeEntity>
 
