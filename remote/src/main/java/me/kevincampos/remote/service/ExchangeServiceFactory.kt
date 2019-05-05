@@ -1,6 +1,5 @@
 package me.kevincampos.remote.service
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -12,38 +11,32 @@ import java.util.concurrent.TimeUnit
 
 object ExchangeServiceFactory {
 
-    fun makeExchangeService(isDebug: Boolean): ExchangeService {
-        val okHttpClient = makeOkHttpClient(
-            makeLoggingInterceptor((isDebug))
-        )
-
+    fun makeExchangeService(okHttpClient: OkHttpClient): ExchangeService {
         val gson = GsonBuilder()
             .setLenient()
             .create()
 
-        return makeExchangeService(
-            okHttpClient,
-            gson
-        )
-    }
-
-    private fun makeExchangeService(okHttpClient: OkHttpClient, gson: Gson): ExchangeService {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.coingecko.com/api/v3/")
             .client(okHttpClient)
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+
         return retrofit.create(ExchangeService::class.java)
     }
 
-    private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor)
+
+
+    fun makeOkHttpClient(isDebug: Boolean): OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(makeLoggingInterceptor(isDebug))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
+        return okHttpClient
     }
+
 
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
