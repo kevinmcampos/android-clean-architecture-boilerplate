@@ -8,11 +8,13 @@ import javax.inject.Inject
 class ExchangeEntityMapper @Inject constructor() : EntityMapper<ExchangeEntity, Exchange> {
 
     override fun mapFromEntity(entity: ExchangeEntity): Exchange {
-        return Exchange(entity.id, entity.name)
+        return Exchange(entity.id, entity.name, entity.year, entity.country, entity.description, entity.url,
+            entity.imageUrl, entity.hasTradingIncentive, entity.btcTradeVolumeInLast24Hours)
     }
 
     override fun mapToEntity(domain: Exchange): ExchangeEntity {
-        return ExchangeEntity(domain.id, domain.name)
+        return ExchangeEntity(domain.id, domain.name, domain.year, domain.country, domain.description, domain.url,
+            domain.imageUrl, domain.hasTradingIncentive, domain.btcTradeVolumeInLast24Hours)
     }
 
 }
