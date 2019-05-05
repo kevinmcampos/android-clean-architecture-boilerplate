@@ -16,4 +16,5 @@ dependencies {
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "com.nhaarman:mockito-kotlin:$mockito_version"
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
 }

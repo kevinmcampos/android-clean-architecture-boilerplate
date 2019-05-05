@@ -1,50 +1,41 @@
 package me.kevincampos.data
 
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import me.kevincampos.data.cache.ExchangeCache
+import me.kevincampos.data.factory.ExchangeFactory
 import me.kevincampos.data.remote.ExchangeRemote
-import me.kevincampos.domain.ExchangeRepository
-import me.kevincampos.domain.model.Exchange
 import me.kevincampos.domain.util.Result
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.IOException
 
 @RunWith(MockitoJUnitRunner::class)
 class ExchangeRepositoryImplTest {
 
-    private lateinit var exchangeRepository: ExchangeRepository
-    @Mock
-    lateinit var exchangeCache: ExchangeCache
-    @Mock
-    lateinit var exchangeRemote: ExchangeRemote
+    private val exchangeCache: ExchangeCache = mock()
+    private val exchangeRemote: ExchangeRemote = mock()
 
-    @Before
-    fun setup() {
-        MockitoAnnotations.initMocks(this)
-        exchangeRepository = ExchangeRepositoryImpl(exchangeCache, exchangeRemote)
-    }
+    private val exchangeRepository = ExchangeRepositoryImpl(exchangeCache, exchangeRemote)
 
     @Test
     fun getExchangesFetchRemoteSuccessfully() {
         runBlocking {
-            val fakeResult = me.kevincampos.domain.util.Result.Success(
+            val fakeResult = Result.Success(
                 listOf(
-                    Exchange("AA", "AAAA"),
-                    Exchange("BB", "BBBB")
+                    ExchangeFactory.makeExchange(),
+                    ExchangeFactory.makeExchange()
                 )
             )
 
             whenever(exchangeRemote.fetchExchanges())
-                .thenReturn(fakeResult)
+                .thenReturn(async { fakeResult }.await())
             whenever(exchangeCache.getExchanges())
-                .thenReturn(fakeResult)
+                .thenReturn(async { fakeResult }.await())
 
             val result = exchangeRepository.getExchanges()
 //            verify(exchangeRemote).fetchExchanges()
@@ -64,8 +55,8 @@ class ExchangeRepositoryImplTest {
 
             val fakeCacheResult = Result.Success(
                 listOf(
-                    Exchange("AA", "AAAA"),
-                    Exchange("BB", "BBBB")
+                    ExchangeFactory.makeExchange(),
+                    ExchangeFactory.makeExchange()
                 )
             )
 
@@ -81,6 +72,5 @@ class ExchangeRepositoryImplTest {
             assertEquals(fakeCacheResult, result)
         }
     }
-
 
 }
