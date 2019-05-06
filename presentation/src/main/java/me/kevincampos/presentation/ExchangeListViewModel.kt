@@ -14,16 +14,17 @@ import me.kevincampos.presentation.state.ResourceState
 import javax.inject.Inject
 
 class ExchangeListViewModel @Inject constructor(
-    private val getExchanges: GetExchangesUseCase
+    private val getExchanges: GetExchangesUseCase,
+    private val dispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<Resource<List<Exchange>>> = MutableLiveData()
 
     private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
-        uiScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io) {
             liveData.postValue(Resource(ResourceState.LOADING, null, null))
             refreshExchanges()
         }

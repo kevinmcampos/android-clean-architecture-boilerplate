@@ -2,7 +2,6 @@ package me.kevincampos.policies
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -10,7 +9,6 @@ import android.view.View
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_exchange_list.*
 import me.kevincampos.domain.model.Exchange
-import me.kevincampos.policies.databinding.ActivityExchangeListBinding
 import me.kevincampos.policies.injection.ViewModelFactory
 import me.kevincampos.presentation.ExchangeListViewModel
 import me.kevincampos.presentation.state.Resource
@@ -41,9 +39,9 @@ class ExchangeListActivity : AppCompatActivity() {
     }
 
     private fun bind() {
-        val binding: ActivityExchangeListBinding = DataBindingUtil.setContentView(this, R.layout.activity_exchange_list)
+//        val binding: me.kevincampos.policies.databinding.ActivityExchangeListBinding = DataBindingUtil.setContentView(this, R.layout.activity_exchange_list)
         viewModel = ViewModelProviders.of(this, vmFactory)[ExchangeListViewModel::class.java]
-        binding.viewModel = viewModel
+//        binding.viewModel = viewModel
     }
 
     private fun initRecyclerView() {
