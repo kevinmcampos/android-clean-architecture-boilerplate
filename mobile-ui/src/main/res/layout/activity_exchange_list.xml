@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="me.kevincampos.presentation.ExchangeListViewModel"/>
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/exchange_list"
-            android:clipToPadding="false"
-            android:paddingTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_exchange"/>
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
 
-    <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/exchange_list"
+                android:clipToPadding="false"
+                android:paddingTop="10dp"
+                app:adapter="@{viewModel.Adapter}"
+                app:data="@{viewModel.data}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_exchange"/>
 
-    <TextView
-            android:id="@+id/error_message"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:gravity="center"
-            tools:text="Failed to fetch exchanges"/>
+        <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
-</FrameLayout>
+        <TextView
+                android:id="@+id/error_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:gravity="center"
+                tools:text="Failed to fetch exchanges"/>
+
+    </FrameLayout>
+</layout>

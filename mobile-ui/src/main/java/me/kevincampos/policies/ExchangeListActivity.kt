@@ -2,6 +2,7 @@ package me.kevincampos.policies
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import android.view.View
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_exchange_list.*
 import me.kevincampos.domain.model.Exchange
+import me.kevincampos.policies.databinding.ActivityExchangeListBinding
 import me.kevincampos.policies.injection.ViewModelFactory
 import me.kevincampos.presentation.ExchangeListViewModel
 import me.kevincampos.presentation.state.Resource
@@ -27,12 +29,8 @@ class ExchangeListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exchange_list)
         AndroidInjection.inject(this)
 
-        viewModel = ViewModelProviders.of(this, vmFactory)[ExchangeListViewModel::class.java]
-
-        exchange_list.layoutManager = LinearLayoutManager(this)
-        exchange_list.adapter = ExchangeAdapter { exchange ->
-            // TODO: Open exchange url on the browser
-        }
+        bind()
+        initRecyclerView()
 
         viewModel.getExchangesObservable().observe(this,
             Observer<Resource<List<Exchange>>> {
@@ -40,6 +38,19 @@ class ExchangeListActivity : AppCompatActivity() {
                     handleDataState(it)
                 }
             })
+    }
+
+    private fun bind() {
+        val binding: ActivityExchangeListBinding = DataBindingUtil.setContentView(this, R.layout.activity_exchange_list)
+        viewModel = ViewModelProviders.of(this, vmFactory)[ExchangeListViewModel::class.java]
+        binding.viewModel = viewModel
+    }
+
+    private fun initRecyclerView() {
+        exchange_list.layoutManager = LinearLayoutManager(this)
+        exchange_list.adapter = ExchangeAdapter { exchange ->
+            // TODO: Open exchange url on the browser
+        }
     }
 
     private fun handleDataState(resource: Resource<List<Exchange>>) {
