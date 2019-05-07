@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/exchange_list"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.kevincampos.presentation.ExchangeListViewModel" />
+
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="10dp"
-        tools:listitem="@layout/item_exchange" />
+        android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/exchange_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="10dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:visibleIf="@{viewModel.uiState.isSuccess}"
+            tools:listitem="@layout/item_exchange" />
 
-    <TextView
-        android:id="@+id/error_message"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        android:gravity="center"
-        tools:text="Failed to fetch exchanges" />
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:visibleIf="@{viewModel.uiState.isLoading}" />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:gravity="center"
+            app:visibleIf="@{viewModel.uiState.isError}"
+            tools:text="Failed to fetch exchanges" />
+
+    </FrameLayout>
+</layout>
