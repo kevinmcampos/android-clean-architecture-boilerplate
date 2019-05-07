@@ -12,9 +12,18 @@ import com.bumptech.glide.request.RequestListener
 import me.kevincampos.domain.model.Exchange
 import me.kevincampos.policies.ExchangeAdapter
 
-@BindingAdapter("visibleIf")
-fun bindVisibleIf(view: View, visible: Boolean) {
-    view.visibility = if (visible) {
+@BindingAdapter("visibleUnless")
+fun bindVisibleIf(view: View, mustGone: Boolean) {
+    view.visibility = if (mustGone) {
+        GONE
+    } else {
+        VISIBLE
+    }
+}
+
+@BindingAdapter("goneUnless")
+fun bindGoneIf(view: View, mustVisible: Boolean) {
+    view.visibility = if (mustVisible) {
         VISIBLE
     } else {
         GONE

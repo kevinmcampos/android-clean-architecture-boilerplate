@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="10dp"
+            app:goneUnless="@{viewModel.uiState.isSuccess}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:visibleIf="@{viewModel.uiState.isSuccess}"
             tools:listitem="@layout/item_exchange" />
 
         <ProgressBar
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:visibleIf="@{viewModel.uiState.isLoading}" />
+            app:goneUnless="@{viewModel.uiState.isLoading}" />
 
         <TextView
             android:id="@+id/error_message"
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:gravity="center"
-            app:visibleIf="@{viewModel.uiState.isError}"
+            app:goneUnless="@{viewModel.uiState.isError}"
             tools:text="Failed to fetch exchanges" />
 
     </FrameLayout>
