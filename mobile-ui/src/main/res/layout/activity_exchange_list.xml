@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            app:goneUnless="@{viewModel.uiState.showLoading}" />
+            app:goneUnless="@{viewModel.uiState.isLoading}" />
 
     </FrameLayout>
 </layout>

@@ -4,10 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.StringRes
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import me.kevincampos.domain.interactor.GetExchangesUseCase
 import me.kevincampos.domain.model.Exchange
 import me.kevincampos.domain.util.Event
@@ -28,32 +25,50 @@ class ExchangeListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcherProvider.io) {
-            val result = getExchanges(cacheOnly = true)
-            if (result is Result.Success) {
-                _uiState.postValue(ExchangeListUiState.successWithLoading(result.data))
-            } else {
-                _uiState.postValue(ExchangeListUiState.loading())
-            }
-
-            refreshExchanges()
+            loadExchangesFromCache()
         }
     }
 
-    private suspend fun refreshExchanges() {
+    private suspend fun loadExchangesFromCache() {
+        val result = getExchanges(cacheOnly = true)
+
+        withContext(dispatcherProvider.main) {
+            if (result is Result.Success) {
+                _uiState.value = ExchangeListUiState.successWithLoading(result.data)
+            } else {
+                _uiState.value = ExchangeListUiState.loading()
+            }
+        }
+
+        fetchExchangesFromRemote()
+    }
+
+    private suspend fun fetchExchangesFromRemote() {
         val result = getExchanges()
-        if (result is Result.Success) {
-            _uiState.postValue(ExchangeListUiState.success(result.data))
-        } else {
-            _uiState.postValue(ExchangeListUiState.error(R.string.failed))
+
+        withContext(dispatcherProvider.main) {
+            if (result is Result.Success) {
+                _uiState.value = ExchangeListUiState.success(result.data)
+            } else {
+                _uiState.value = _uiState.value?.withError(R.string.failed)
+            }
+        }
+    }
+
+    fun refresh() {
+        _uiState.value = _uiState.value?.withLoading()
+
+        viewModelScope.launch(dispatcherProvider.io) {
+            fetchExchangesFromRemote()
         }
     }
 
 }
 
 class ExchangeListUiState private constructor(
-    val showLoading: Boolean,
+    val isLoading: Boolean,
     val exchanges: List<Exchange>?,
-    val errorStringRes: Event<Int>?
+    val showError: Event<Int>?
 ) {
 
     companion object {
@@ -65,17 +80,17 @@ class ExchangeListUiState private constructor(
             return ExchangeListUiState(true, data, null)
         }
 
-        fun error(@StringRes errorStringRes: Int): ExchangeListUiState {
-            return ExchangeListUiState(false, null, Event(errorStringRes))
-        }
-
         fun loading(): ExchangeListUiState {
             return ExchangeListUiState(true, null, null)
         }
     }
 
-    enum class State {
-        LOADING, SUCCESS, ERROR
+    fun withLoading(): ExchangeListUiState {
+        return ExchangeListUiState(true, exchanges, null)
+    }
+
+    fun withError(@StringRes errorStringRes: Int): ExchangeListUiState {
+        return ExchangeListUiState(false, exchanges, Event(errorStringRes))
     }
 
 }

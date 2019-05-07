@@ -7,12 +7,17 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.FrameLayout
 import dagger.android.AndroidInjection
 import me.kevincampos.policies.databinding.ActivityExchangeListBinding
 import me.kevincampos.policies.injection.ViewModelFactory
 import me.kevincampos.presentation.ExchangeListUiState
 import me.kevincampos.presentation.ExchangeListViewModel
 import javax.inject.Inject
+
 
 class ExchangeListActivity : AppCompatActivity() {
 
@@ -41,10 +46,23 @@ class ExchangeListActivity : AppCompatActivity() {
                 adapter.swap(exchanges)
             }
 
-            uiState.errorStringRes?.apply {
+            uiState.showError?.apply {
                 consume()?.let { stringError -> displayError(stringError) }
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.refresh_action) {
+            viewModel.refresh()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initRecyclerView() {
@@ -54,8 +72,22 @@ class ExchangeListActivity : AppCompatActivity() {
     }
 
     private fun displayError(@StringRes errorString: Int) {
-        Snackbar.make(binding.root, errorString, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.dismiss) { /* do nothing */ }.show()
+        Snackbar.make(binding.root, errorString, Snackbar.LENGTH_LONG)
+            .setAction(R.string.dismiss) { /* do nothing */ }.apply {
+                val params = view.layoutParams as FrameLayout.LayoutParams
+                val marginInDps =
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
+
+                params.setMargins(
+                    params.leftMargin + marginInDps,
+                    params.topMargin,
+                    params.rightMargin + marginInDps,
+                    params.bottomMargin + marginInDps
+                )
+
+                view.layoutParams = params
+                show()
+            }
     }
 
 }
