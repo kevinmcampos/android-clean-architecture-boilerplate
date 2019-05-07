@@ -31,8 +31,8 @@ object ExchangeServiceFactory {
     fun makeOkHttpClient(isDebug: Boolean): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(makeLoggingInterceptor(isDebug))
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .build()
         return okHttpClient
     }

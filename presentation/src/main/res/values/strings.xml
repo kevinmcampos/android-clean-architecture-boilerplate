@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="failed">Failed to refresh exchanges</string>
 </resources>

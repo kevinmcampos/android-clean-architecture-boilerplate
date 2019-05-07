@@ -3,12 +3,14 @@ package me.kevincampos.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.StringRes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.kevincampos.domain.interactor.GetExchangesUseCase
 import me.kevincampos.domain.model.Exchange
+import me.kevincampos.domain.util.Event
 import me.kevincampos.domain.util.Result
 import javax.inject.Inject
 
@@ -26,7 +28,13 @@ class ExchangeListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(dispatcherProvider.io) {
-            _uiState.postValue(ExchangeListUiState.loading())
+            val result = getExchanges(cacheOnly = true)
+            if (result is Result.Success) {
+                _uiState.postValue(ExchangeListUiState.successWithLoading(result.data))
+            } else {
+                _uiState.postValue(ExchangeListUiState.loading())
+            }
+
             refreshExchanges()
         }
     }
@@ -36,38 +44,38 @@ class ExchangeListViewModel @Inject constructor(
         if (result is Result.Success) {
             _uiState.postValue(ExchangeListUiState.success(result.data))
         } else {
-            _uiState.postValue(ExchangeListUiState.error("Failed to refresh exchanges"))
+            _uiState.postValue(ExchangeListUiState.error(R.string.failed))
         }
     }
 
 }
 
 class ExchangeListUiState private constructor(
-    private val state: State,
+    val showLoading: Boolean,
     val exchanges: List<Exchange>?,
-    val errorMessage: String?
+    val errorStringRes: Event<Int>?
 ) {
 
     companion object {
         fun success(data: List<Exchange>): ExchangeListUiState {
-            return ExchangeListUiState(State.SUCCESS, data, null)
+            return ExchangeListUiState(false, data, null)
         }
 
-        fun error(errorMessage: String?): ExchangeListUiState {
-            return ExchangeListUiState(State.ERROR, null, errorMessage)
+        fun successWithLoading(data: List<Exchange>): ExchangeListUiState {
+            return ExchangeListUiState(true, data, null)
+        }
+
+        fun error(@StringRes errorStringRes: Int): ExchangeListUiState {
+            return ExchangeListUiState(false, null, Event(errorStringRes))
         }
 
         fun loading(): ExchangeListUiState {
-            return ExchangeListUiState(State.LOADING, null, null)
+            return ExchangeListUiState(true, null, null)
         }
     }
 
     enum class State {
         LOADING, SUCCESS, ERROR
     }
-
-    fun isLoading() = state == State.LOADING
-    fun isSuccess() = state == State.SUCCESS
-    fun isError() = state == State.ERROR
 
 }

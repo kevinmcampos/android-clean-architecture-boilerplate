@@ -13,7 +13,7 @@ import me.kevincampos.domain.model.Exchange
 import me.kevincampos.policies.ExchangeAdapter
 
 @BindingAdapter("visibleUnless")
-fun bindVisibleIf(view: View, mustGone: Boolean) {
+fun bindVisibleUnless(view: View, mustGone: Boolean) {
     view.visibility = if (mustGone) {
         GONE
     } else {
@@ -22,7 +22,7 @@ fun bindVisibleIf(view: View, mustGone: Boolean) {
 }
 
 @BindingAdapter("goneUnless")
-fun bindGoneIf(view: View, mustVisible: Boolean) {
+fun bindGoneUnless(view: View, mustVisible: Boolean) {
     view.visibility = if (mustVisible) {
         VISIBLE
     } else {

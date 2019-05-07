@@ -2,5 +2,6 @@
     <string name="app_name">Exchange List</string>
 
     <string name="btc_traded_in_the_last_24h">traded in the last 24h</string>
-    <string name="generic_text">%.2f BTC</string>
+    <string name="bitcoin_symbol">%.2f BTC</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

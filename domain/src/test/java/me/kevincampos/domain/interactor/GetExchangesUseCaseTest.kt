@@ -29,7 +29,7 @@ class GetExchangesUseCaseTest {
                 )
             )
 
-            whenever(exchangeRepository.getExchanges())
+            whenever(exchangeRepository.getExchanges(cacheOnly = false))
                 .thenReturn(fakeSuccessResult)
 
             val result = getExchangesUseCase()
@@ -42,12 +42,12 @@ class GetExchangesUseCaseTest {
     @Test
     fun getExchangesReturnsError() {
         runBlocking {
-            whenever(exchangeRepository.getExchanges())
+            whenever(exchangeRepository.getExchanges(cacheOnly = false))
                 .thenReturn(Result.Error(IOException("Failed to get exchanges from remote")))
 
             val result = getExchangesUseCase()
 
-            verify(exchangeRepository).getExchanges()
+            verify(exchangeRepository).getExchanges(cacheOnly = false)
 
             assert(result is Result.Error && result.exception is IOException)
         }

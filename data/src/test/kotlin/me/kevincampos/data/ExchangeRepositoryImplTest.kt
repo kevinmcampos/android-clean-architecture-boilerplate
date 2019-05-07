@@ -37,7 +37,7 @@ class ExchangeRepositoryImplTest {
             whenever(exchangeCache.getExchanges())
                 .thenReturn(async { fakeResult }.await())
 
-            val result = exchangeRepository.getExchanges()
+            val result = exchangeRepository.getExchanges(cacheOnly = true)
 //            verify(exchangeRemote).fetchExchanges()
 //            verify(exchangeCache).insertExchanges(fakeResult.data)
 
@@ -64,7 +64,7 @@ class ExchangeRepositoryImplTest {
                 .thenReturn(fakeCacheResult)
 
             val result =
-                exchangeRepository.getExchanges()
+                exchangeRepository.getExchanges(cacheOnly = true)
 //            verify(exchangeRemote).fetchExchanges()
 //            verify(exchangeCache, never()).insertExchanges(any())
 

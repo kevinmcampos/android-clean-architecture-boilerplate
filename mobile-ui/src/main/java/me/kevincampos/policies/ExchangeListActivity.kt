@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import me.kevincampos.policies.databinding.ActivityExchangeListBinding
@@ -38,6 +40,10 @@ class ExchangeListActivity : AppCompatActivity() {
                 val adapter = binding.exchangeList.adapter as ExchangeAdapter
                 adapter.swap(exchanges)
             }
+
+            uiState.errorStringRes?.apply {
+                consume()?.let { stringError -> displayError(stringError) }
+            }
         })
     }
 
@@ -45,6 +51,11 @@ class ExchangeListActivity : AppCompatActivity() {
         binding.exchangeList.adapter = ExchangeAdapter { exchange ->
             // TODO: Open exchange url on the browser
         }
+    }
+
+    private fun displayError(@StringRes errorString: Int) {
+        Snackbar.make(binding.root, errorString, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.dismiss) { /* do nothing */ }.show()
     }
 
 }

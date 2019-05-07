@@ -5,6 +5,6 @@ import me.kevincampos.domain.util.Result
 
 interface ExchangeRepository {
 
-    suspend fun getExchanges(): Result<List<Exchange>>
+    suspend fun getExchanges(cacheOnly: Boolean): Result<List<Exchange>>
 
 }

@@ -9,8 +9,8 @@ class GetExchangesUseCase @Inject constructor(
     private val exchangeRepository: ExchangeRepository
 ) {
 
-    suspend operator fun invoke(): Result<List<Exchange>> {
-        return exchangeRepository.getExchanges()
+    suspend operator fun invoke(cacheOnly: Boolean = false): Result<List<Exchange>> {
+        return exchangeRepository.getExchanges(cacheOnly)
     }
 
 }

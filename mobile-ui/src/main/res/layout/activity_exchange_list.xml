@@ -21,25 +21,17 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="10dp"
-            app:goneUnless="@{viewModel.uiState.isSuccess}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/item_exchange" />
 
+        <!-- TODO: Replace Holo ProgressBar with Material Design one -->
         <ProgressBar
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:goneUnless="@{viewModel.uiState.isLoading}" />
-
-        <TextView
-            android:id="@+id/error_message"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:gravity="center"
-            app:goneUnless="@{viewModel.uiState.isError}"
-            tools:text="Failed to fetch exchanges" />
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:goneUnless="@{viewModel.uiState.showLoading}" />
 
     </FrameLayout>
 </layout>

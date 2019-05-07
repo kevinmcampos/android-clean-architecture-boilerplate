@@ -68,7 +68,7 @@
                 android:id="@+id/exchange_btc_volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/generic_text(exchange.btcTradeVolumeInLast24Hours)}"
+                android:text="@{@string/bitcoin_symbol(exchange.btcTradeVolumeInLast24Hours)}"
                 android:textColor="@android:color/black"
                 android:textSize="22sp"
                 tools:text="0 BTC" />
